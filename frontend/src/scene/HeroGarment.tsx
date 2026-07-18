@@ -1,9 +1,12 @@
 import { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { useScrollStore } from '../store/useScrollStore'
 import type { Mesh } from 'three'
 
 const ROTATIONS_TOTAL = 1.5
+const REFERENCE_SIZE = 1080
+const MIN_SCALE = 0.35
+const MAX_SCALE = 1.1
 
 export default function HeroGarment({
   color = '#6366f1',
@@ -19,9 +22,14 @@ export default function HeroGarment({
   const meshRef = useRef<Mesh>(null)
   const progress = useScrollStore((s) => s.progress)
   const currentRot = useRef(0)
+  const { size } = useThree()
 
   useFrame(({ clock }, delta) => {
     if (!meshRef.current) return
+
+    const base = Math.min(size.width, size.height)
+    const scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, base / REFERENCE_SIZE))
+    meshRef.current.scale.setScalar(scale)
 
     const targetRot = progress * Math.PI * 2 * ROTATIONS_TOTAL
     const lerpFactor = 1 - Math.exp(-3 * delta)

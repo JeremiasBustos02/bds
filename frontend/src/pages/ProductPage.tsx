@@ -88,32 +88,32 @@ export default function ProductPage() {
         <DebugProgress />
 
         <div className="relative z-10 w-full h-full">
-          <ScrollOverlay
-            checkpoint={0}
-            className="left-1/2 top-[50vh] -translate-x-1/2 -translate-y-1/2 text-center"
-          >
-            <h1 className="text-5xl font-bold text-white md:text-7xl">
-              {product.nombre}
-            </h1>
-            <p className="text-xl font-serif leading-relaxed text-neutral-300 md:text-2xl">
-              {product.descripcion}
-            </p>
-          </ScrollOverlay>
+            <ScrollOverlay
+              checkpoint={0}
+              className="left-1/2 top-[50vh] -translate-x-1/2 -translate-y-1/2 text-center px-4"
+            >
+              <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-7xl">
+                {product.nombre}
+              </h1>
+              <p className="mt-2 text-base leading-relaxed text-neutral-300 sm:text-lg md:text-xl lg:text-2xl">
+                {product.descripcion}
+              </p>
+            </ScrollOverlay>
 
           {product.detalleTela && (
             <ScrollOverlay
               checkpoint={0.2}
               align="right"
               indicator
-              className="right-[8%] top-[110vh] -translate-y-1/2 text-right max-w-md"
+              className="right-[5%] sm:right-[8%] top-[110vh] -translate-y-1/2 text-right max-w-[45vw] sm:max-w-md"
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-neutral-400">
                 Material
               </p>
-              <h2 className="mt-1 text-4xl font-bold text-white md:text-5xl">
+              <h2 className="mt-1 text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
                 Tela premium
               </h2>
-              <p className="mt-3 text-lg leading-relaxed text-neutral-300">
+              <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg leading-relaxed text-neutral-300">
                 {product.detalleTela}
               </p>
             </ScrollOverlay>
@@ -124,15 +124,15 @@ export default function ProductPage() {
               checkpoint={0.45}
               align="left"
               indicator
-              className="left-[8%] top-[185vh] -translate-y-1/2 text-left max-w-md"
+              className="left-[5%] sm:left-[8%] top-[185vh] -translate-y-1/2 text-left max-w-[45vw] sm:max-w-md"
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-neutral-400">
                 Fit
               </p>
-              <h2 className="mt-1 text-4xl font-bold text-white md:text-5xl">
+              <h2 className="mt-1 text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
                 Corte
               </h2>
-              <p className="mt-3 text-lg leading-relaxed text-neutral-300">
+              <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg leading-relaxed text-neutral-300">
                 {product.detalleCorte}
               </p>
             </ScrollOverlay>
@@ -143,15 +143,15 @@ export default function ProductPage() {
               checkpoint={0.7}
               align="right"
               indicator
-              className="right-[8%] top-[260vh] -translate-y-1/2 text-right max-w-md"
+              className="right-[5%] sm:right-[8%] top-[260vh] -translate-y-1/2 text-right max-w-[45vw] sm:max-w-md"
             >
-              <p className="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-neutral-400">
                 Terminación
               </p>
-              <h2 className="mt-1 text-4xl font-bold text-white md:text-5xl">
+              <h2 className="mt-1 text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
                 Detalles de costura
               </h2>
-              <p className="mt-3 text-lg leading-relaxed text-neutral-300">
+              <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg leading-relaxed text-neutral-300">
                 {product.detalleCostura}
               </p>
             </ScrollOverlay>

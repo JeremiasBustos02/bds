@@ -8,9 +8,9 @@ export default function CtaSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-        className="text-center"
+        className="text-center px-4"
       >
-        <p className="text-xl font-bold text-neutral-200 md:text-2xl">
+        <p className="text-lg font-bold text-neutral-200 sm:text-xl md:text-2xl">
           Descubrí toda la colección
         </p>
         <button

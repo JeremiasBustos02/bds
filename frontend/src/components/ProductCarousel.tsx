@@ -154,7 +154,7 @@ export default function ProductCarousel({
                 className="snap-start shrink-0"
                 onMouseEnter={() => handleMouseEnter(product.id)}
                 onMouseLeave={handleMouseLeave}
-                style={{ width: 'clamp(220px, 28vw, 320px)' }}
+                className="snap-start shrink-0 w-[44vw] min-w-[140px] max-w-[180px] sm:w-[28vw] sm:min-w-[220px] sm:max-w-[320px]"
               >
                 <div
                   onClick={() => navigate(`/producto/${product.slug}`)}

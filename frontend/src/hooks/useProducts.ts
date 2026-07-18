@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { ProductoResponse } from '../lib/types'
+import type { ProductoResponse, Categoria } from '../lib/types'
 
 interface UseProductsResult {
   products: ProductoResponse[]
@@ -7,7 +7,7 @@ interface UseProductsResult {
   error: string | null
 }
 
-export function useProducts(): UseProductsResult {
+export function useProducts(categoria?: Categoria): UseProductsResult {
   const [products, setProducts] = useState<ProductoResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -20,7 +20,10 @@ export function useProducts(): UseProductsResult {
       setError(null)
 
       try {
-        const res = await fetch('/api/productos?size=20')
+        const params = new URLSearchParams()
+        params.set('size', '20')
+        if (categoria) params.set('categoria', categoria)
+        const res = await fetch(`/api/productos?${params}`)
 
         if (!res.ok) {
           throw new Error(`Error ${res.status}: ${res.statusText}`)
@@ -45,7 +48,7 @@ export function useProducts(): UseProductsResult {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [categoria])
 
   return { products, loading, error }
 }

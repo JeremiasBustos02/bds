@@ -1,4 +1,15 @@
 export type Categoria = 'REMERAS' | 'BUZOS' | 'PANTALONES' | 'ACCESORIOS'
+
+export interface CartItem {
+  productoId: string
+  varianteId: string
+  nombre: string
+  precio: number
+  talle: Talle
+  color: string
+  cantidad: number
+  imagenPlaceholder: string
+}
 export type Talle = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'
 
 export interface VarianteConStock {

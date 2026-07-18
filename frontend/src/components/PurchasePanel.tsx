@@ -1,7 +1,10 @@
 import { useState, useEffect, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ProductoResponse, Categoria, Talle } from '../lib/types'
+import { useCartStore } from '../store/useCartStore'
 import GlassPanel from './GlassPanel'
+import Toast from './Toast'
 
 const CATEGORY_LABEL: Record<Categoria, string> = {
   REMERAS: 'Remeras',
@@ -350,13 +353,13 @@ function Accordion({
   children: ReactNode
 }) {
   return (
-    <div className="border-b border-white/[0.06] pb-3">
+    <div className="border-b border-white/[0.06] pb-2 sm:pb-3">
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between py-1 text-left"
+        className="flex w-full items-center justify-between py-0.5 sm:py-1 text-left"
       >
-        <span className="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+        <span className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-neutral-400">
           {title}
         </span>
         <motion.svg
@@ -392,7 +395,11 @@ export default function PurchasePanel({
 }: {
   product: ProductoResponse
 }) {
+  const navigate = useNavigate()
+  const agregarItem = useCartStore((s) => s.agregarItem)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [toastVisible, setToastVisible] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
@@ -433,38 +440,48 @@ export default function PurchasePanel({
     }, 800)
   }
 
+  function showToast(message: string) {
+    setToastMessage(message)
+    setToastVisible(true)
+    setTimeout(() => setToastVisible(false), 2500)
+  }
+
   function handleAddToCart() {
     if (!selected) return
-    console.log('Agregar al carrito', {
+    agregarItem({
       productoId: product.id,
-      productoNombre: product.nombre,
       varianteId: selected.id,
+      nombre: product.nombre,
+      precio: totalPrice,
       talle: selected.talle,
       color: selected.color,
-      precioTotal: totalPrice,
+      imagenPlaceholder: galleryImages[0],
     })
+    showToast(`${product.nombre} — Talle ${selected.talle} agregado al carrito`)
   }
 
   function handleBuyNow() {
     if (!selected) return
-    console.log('Comprar ahora', {
+    agregarItem({
       productoId: product.id,
-      productoNombre: product.nombre,
       varianteId: selected.id,
+      nombre: product.nombre,
+      precio: totalPrice,
       talle: selected.talle,
       color: selected.color,
-      precioTotal: totalPrice,
+      imagenPlaceholder: galleryImages[0],
     })
+    navigate('/carrito')
   }
 
   return (
     <>
+      <Toast show={toastVisible} message={toastMessage} />
       <GlassPanel
         variant="dense"
-        className="mx-auto w-[90vw] max-w-4xl p-4 sm:p-6 rounded-3xl"
-        style={{ maxHeight: '80vh', overflowY: 'auto' }}
+        className="mx-auto w-full max-w-4xl p-3 sm:p-4 md:p-6 rounded-3xl"
       >
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-7">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-7">
           {/* ── Galería (columna izquierda) ── */}
           <div className="flex flex-col gap-2">
             <button
@@ -489,7 +506,7 @@ export default function PurchasePanel({
                   key={i}
                   type="button"
                   onClick={() => setGalleryIndex(i)}
-                  className={`h-11 w-full rounded-lg bg-gradient-to-br ${img} transition-all ${
+                  className={`h-9 sm:h-11 w-full rounded-lg bg-gradient-to-br ${img} transition-all ${
                     i === galleryIndex
                       ? 'ring-2 ring-white ring-offset-1 ring-offset-neutral-900'
                       : 'opacity-50 hover:opacity-80'
@@ -500,39 +517,39 @@ export default function PurchasePanel({
           </div>
 
           {/* ── Detalle (columna derecha) ── */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3 sm:gap-4">
             {/* Nombre + categoría */}
             <div>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+              <h2 className="mt-1 text-xl font-bold text-white sm:text-2xl md:text-3xl">
                 {product.nombre}
               </h2>
             </div>
 
             {/* Precio + cuotas */}
             <div>
-              <p className="text-3xl font-bold text-white sm:text-4xl">
+              <p className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                 ${totalPrice.toLocaleString('es-AR')}
               </p>
-              <p className="mt-0.5 text-sm font-medium text-emerald-400/80">
+              <p className="mt-0.5 text-xs sm:text-sm font-medium text-emerald-400/80">
                 3 cuotas sin interés de ${(totalPrice / 3).toLocaleString('es-AR', { maximumFractionDigits: 0 })}
               </p>
             </div>
 
             {/* Talle + guía de talles + stock */}
-            <div className="border-b border-white/[0.06] pb-3">
+            <div className="border-b border-white/[0.06] pb-2 sm:pb-3">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-400">
+                <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] text-neutral-400">
                   Talle
                 </p>
                 <button
                   type="button"
                   onClick={() => setSizeGuideOpen(true)}
-                  className="text-sm font-medium text-white/50 underline underline-offset-2 transition-colors hover:text-white/80"
+                  className="text-xs sm:text-sm font-medium text-white/50 underline underline-offset-2 transition-colors hover:text-white/80"
                 >
                   Ver guía de talles
                 </button>
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2">
                 {product.variantes.map((v) => {
                   const outOfStock = v.stockDisponible <= 0
                   const isSelected = v.id === selectedId
@@ -542,7 +559,7 @@ export default function PurchasePanel({
                       type="button"
                       disabled={outOfStock}
                       onClick={() => setSelectedId(v.id)}
-                      className={`min-w-[3rem] rounded-md border px-4 py-2.5 text-base font-medium transition-all ${
+                      className={`min-w-[2.5rem] rounded-md border px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-all ${
                         isSelected
                           ? 'border-white bg-white text-neutral-900'
                           : outOfStock
@@ -557,7 +574,7 @@ export default function PurchasePanel({
               </div>
               {selected && (
                 <div
-                  className={`mt-2 flex items-center gap-2 text-base ${
+                  className={`mt-1.5 sm:mt-2 flex items-center gap-2 text-sm sm:text-base ${
                     selected.stockDisponible > 5
                       ? 'text-emerald-400'
                       : selected.stockDisponible > 0
@@ -591,14 +608,14 @@ export default function PurchasePanel({
                   value={cp}
                   onChange={(e) => setCp(e.target.value)}
                   placeholder="Código postal"
-                  className="min-w-0 flex-1 rounded-full border border-white/[0.08] bg-white/5 px-4 py-2.5 text-base text-white placeholder-neutral-500 outline-none transition-colors focus:border-white/20"
+                  className="min-w-0 flex-1 rounded-full border border-white/[0.08] bg-white/5 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base text-white placeholder-neutral-500 outline-none transition-colors focus:border-white/20"
                   maxLength={8}
                 />
                 <button
                   type="button"
                   onClick={handleCalculateShipping}
                   disabled={!cp.trim() || calculating}
-                  className={`shrink-0 rounded-full px-5 py-2.5 text-base font-medium transition-all ${
+                  className={`shrink-0 rounded-full px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium transition-all ${
                     cp.trim() && !calculating
                       ? 'bg-white/10 text-white hover:bg-white/20 active:scale-95'
                       : 'bg-white/5 text-neutral-500 cursor-not-allowed'
@@ -615,20 +632,20 @@ export default function PurchasePanel({
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-3 space-y-2 rounded-lg border border-white/[0.06] bg-white/[0.03] p-3"
                   >
-                    <div className="flex items-center justify-between text-base">
+                    <div className="flex items-center justify-between text-sm sm:text-base">
                       <span className="text-neutral-300">Envío a domicilio</span>
                       <span className="text-white">
                         ${shippingResult.domicilio.costo.toLocaleString('es-AR')}{' '}
-                        <span className="text-sm text-neutral-500">
+                        <span className="text-xs sm:text-sm text-neutral-500">
                           ({shippingResult.domicilio.dias} días hábiles)
                         </span>
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-base">
+                    <div className="flex items-center justify-between text-sm sm:text-base">
                       <span className="text-neutral-300">Retiro en sucursal</span>
                       <span className="text-emerald-400">
                         Gratis{' '}
-                        <span className="text-sm text-neutral-500">
+                        <span className="text-xs sm:text-sm text-neutral-500">
                           ({shippingResult.sucursal.dias} días hábiles)
                         </span>
                       </span>
@@ -644,19 +661,19 @@ export default function PurchasePanel({
                 {VISIBLE_PAYMENT_METHODS.map((m) => (
                   <span
                     key={m.name}
-                    className="rounded-full border border-white/[0.08] bg-white/5 px-4 py-1.5 text-sm text-neutral-300"
+                    className="rounded-full border border-white/[0.08] bg-white/5 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm text-neutral-300"
                   >
                     {m.name}
                   </span>
                 ))}
               </div>
-              <p className="mt-1.5 text-sm font-medium text-emerald-400/80">
+              <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm font-medium text-emerald-400/80">
                 3 cuotas sin interés con Mercado Pago
               </p>
               <button
                 type="button"
                 onClick={() => setPaymentDetailOpen(true)}
-                className="mt-2 text-sm font-medium text-white/50 underline underline-offset-2 transition-colors hover:text-white/80"
+                className="mt-2 text-xs sm:text-sm font-medium text-white/50 underline underline-offset-2 transition-colors hover:text-white/80"
               >
                 Ver más medios de pago
               </button>
@@ -668,7 +685,7 @@ export default function PurchasePanel({
                 type="button"
                 disabled={!selected}
                 onClick={handleAddToCart}
-                className={`w-full rounded-full px-8 py-4 text-base font-medium transition-all ${
+                className={`w-full rounded-full px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition-all ${
                   selected
                     ? 'bg-white text-neutral-900 hover:bg-neutral-200 hover:scale-[1.02] active:scale-[0.98]'
                     : 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
@@ -680,7 +697,7 @@ export default function PurchasePanel({
                 type="button"
                 disabled={!selected}
                 onClick={handleBuyNow}
-                className={`w-full rounded-full border px-8 py-4 text-base font-medium transition-all ${
+                className={`w-full rounded-full border px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition-all ${
                   selected
                     ? 'border-white/20 text-white hover:bg-white/10 active:scale-[0.98]'
                     : 'border-neutral-700 text-neutral-600 cursor-not-allowed'

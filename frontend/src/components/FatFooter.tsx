@@ -61,19 +61,19 @@ export default function FatFooter() {
             </h4>
             <ul className="mt-4 space-y-2.5">
               <li>
-                <span className="cursor-pointer text-sm font-medium text-neutral-400 transition-colors hover:text-white">
+                <Link to="/categoria/remeras" className="text-sm font-medium text-neutral-400 transition-colors hover:text-white">
                   Remeras
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="cursor-pointer text-sm font-medium text-neutral-400 transition-colors hover:text-white">
+                <Link to="/categoria/buzos" className="text-sm font-medium text-neutral-400 transition-colors hover:text-white">
                   Buzos
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="cursor-pointer text-sm font-medium text-neutral-400 transition-colors hover:text-white">
+                <Link to="/categoria/pantalones" className="text-sm font-medium text-neutral-400 transition-colors hover:text-white">
                   Pantalones
-                </span>
+                </Link>
               </li>
             </ul>
           </div>

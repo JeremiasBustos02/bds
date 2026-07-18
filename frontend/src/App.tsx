@@ -1,9 +1,12 @@
-import Scene3D from './scene/Scene3D'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 
 export default function App() {
   return (
-    <div className="w-full h-full">
-      <Scene3D />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

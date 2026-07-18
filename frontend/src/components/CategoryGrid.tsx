@@ -84,8 +84,8 @@ export default function CategoryGrid({
               onClick={() => navigate(`/categoria/${cat.toLowerCase()}`)}
               className={`cursor-pointer rounded-xl bg-gradient-to-br ${info.bgClass} border border-white/10 p-8 transition-all duration-300 hover:border-white/30 hover:scale-[1.02]`}
             >
-              <h3 className="text-2xl font-bold text-white">{info.label}</h3>
-              <p className="mt-2 text-sm text-neutral-400">
+              <h3 className="text-2xl font-semibold text-white">{info.label}</h3>
+              <p className="mt-2 text-sm font-serif text-neutral-400">
                 {count} producto{count !== 1 ? 's' : ''}
               </p>
             </motion.div>

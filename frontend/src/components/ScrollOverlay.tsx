@@ -1,12 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollStore } from '../store/useScrollStore'
 import { type ReactNode } from 'react'
-
-const ENTRY = {
-  center: { initial: { opacity: 0, y: 40 }, exit: { opacity: 0, y: 40 } },
-  left: { initial: { opacity: 0, x: -40 }, exit: { opacity: 0, x: -40 } },
-  right: { initial: { opacity: 0, x: 40 }, exit: { opacity: 0, x: 40 } },
-} as const
 
 export default function ScrollOverlay({
   checkpoint,
@@ -14,14 +7,12 @@ export default function ScrollOverlay({
   className = '',
   align = 'center',
   indicator = false,
-  noEntry = false,
 }: {
   checkpoint: number
   children: ReactNode
   className?: string
   align?: 'center' | 'left' | 'right'
   indicator?: boolean
-  noEntry?: boolean
 }) {
   const progress = useScrollStore((s) => s.progress)
   const distance = Math.abs(progress - checkpoint)
@@ -30,17 +21,17 @@ export default function ScrollOverlay({
   const opacity = Math.max(0, 1 - distance / 0.15)
   const offset = 25 * (1 - opacity)
 
-  const animate =
-    align === 'center'
-      ? { opacity, y: offset }
-      : { opacity, x: align === 'left' ? -offset : offset }
-
-  const entry = ENTRY[align]
+  const transform = `translateY(${offset}px)`
 
   return (
     <div
       className={`absolute z-10 ${className}`}
-      style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+      style={{
+        opacity,
+        transform,
+        pointerEvents: isVisible ? 'auto' : 'none',
+        visibility: isVisible ? 'visible' : 'hidden',
+      }}
     >
       {indicator && align !== 'center' && (
         <div
@@ -52,19 +43,7 @@ export default function ScrollOverlay({
           <div className="h-1.5 w-1.5 rounded-full bg-white/50" />
         </div>
       )}
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            key="content"
-            initial={noEntry ? false : entry.initial}
-            animate={animate}
-            exit={entry.exit}
-            transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {children}
     </div>
   )
 }

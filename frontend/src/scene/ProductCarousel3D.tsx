@@ -12,10 +12,21 @@ const CATEGORY_COLORS: Record<Categoria, string> = {
   ACCESORIOS: '#10b981',
 }
 
-const ARC_START = -0.6
-const ARC_END = 0.6
-const RADIUS = 2.8
-const MAX_MOUSE_ROTATION = 0.25
+const ARC_START = -0.55
+const ARC_END = 0.55
+const RADIUS = 3.0
+
+const CATEGORY_PICK_ORDER: Categoria[] = ['REMERAS', 'BUZOS', 'PANTALONES']
+
+function pickRepresentativeProducts(products: ProductoResponse[]) {
+  const picked: ProductoResponse[] = []
+  for (const cat of CATEGORY_PICK_ORDER) {
+    const found = products.find((p) => p.categoria === cat)
+    if (found) picked.push(found)
+  }
+  return picked
+}
+const MAX_MOUSE_ROTATION = 0.08
 
 function CarouselItem({
   product,
@@ -101,7 +112,7 @@ function CarouselContent({
     groupRef.current.rotation.y = currentRot.current
   })
 
-  const visible = products.slice(0, 5)
+  const visible = pickRepresentativeProducts(products)
 
   return (
     <group ref={groupRef}>
@@ -127,13 +138,15 @@ export default function ProductCarousel3D({
   return (
     <Canvas
       dpr={[1, 2]}
-      camera={{ position: [0, 0.5, 5], fov: 40 }}
+      camera={{ position: [0, 0, 5], fov: 42 }}
       frameloop="always"
       style={{ width: '100%', height: '100%' }}
     >
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.3} />
       <directionalLight position={[5, 5, 5]} intensity={0.8} />
       <directionalLight position={[-3, 2, 4]} intensity={0.4} />
+      <pointLight position={[-2, 1, -3]} intensity={0.5} color="#818cf8" />
+      <pointLight position={[0, -2, 2]} intensity={0.25} color="#c084fc" />
       <CarouselContent products={products} />
     </Canvas>
   )

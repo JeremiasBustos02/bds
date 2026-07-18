@@ -2,7 +2,8 @@ import { useProducts } from '../hooks/useProducts'
 import FloatingNavbar from '../components/FloatingNavbar'
 import HeroSection from '../components/HeroSection'
 import CtaSection from '../components/CtaSection'
-import CategoryGrid from '../components/CategoryGrid'
+import ProductCarousel from '../components/ProductCarousel'
+import FatFooter from '../components/FatFooter'
 
 export default function Home() {
   const { products, loading } = useProducts()
@@ -21,7 +22,10 @@ export default function Home() {
       <FloatingNavbar />
       <HeroSection products={products} />
       <CtaSection />
-      <CategoryGrid products={products} />
+      <ProductCarousel products={products} />
+      <div className="pb-4 pt-12 md:pb-6">
+        <FatFooter />
+      </div>
     </div>
   )
 }

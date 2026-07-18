@@ -10,12 +10,12 @@ export default function CtaSection() {
         transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
         className="text-center"
       >
-        <p className="text-xl text-neutral-200 md:text-2xl">
+        <p className="text-xl font-bold text-neutral-200 md:text-2xl">
           Descubrí toda la colección
         </p>
         <button
           type="button"
-          className="mt-4 rounded-full bg-white px-10 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 hover:scale-105 active:scale-95"
+          className="mt-4 rounded-full bg-white px-10 py-3 text-sm font-medium text-neutral-900 transition-all hover:bg-neutral-200 hover:scale-105 active:scale-95"
           onClick={() => {
             const section = document.getElementById('categorias')
             section?.scrollIntoView({ behavior: 'smooth' })

@@ -15,7 +15,11 @@ public record ProductoResponseDTO(
     BigDecimal precioBase,
     Categoria categoria,
     boolean activo,
+    String slug,
     String modelo3dUrl,
+    String detalleTela,
+    String detalleCorte,
+    String detalleCostura,
     Instant fechaCreacion,
     List<VarianteConStockDTO> variantes
 ) {
@@ -27,7 +31,11 @@ public record ProductoResponseDTO(
             producto.getPrecioBase(),
             producto.getCategoria(),
             producto.isActivo(),
+            producto.getSlug(),
             producto.getModelo3dUrl(),
+            producto.getDetalleTela(),
+            producto.getDetalleCorte(),
+            producto.getDetalleCostura(),
             producto.getFechaCreacion(),
             producto.getVariantes().stream()
                 .map(VarianteConStockDTO::from)

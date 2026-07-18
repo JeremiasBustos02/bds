@@ -5,7 +5,17 @@ import type { Mesh } from 'three'
 
 const ROTATIONS_TOTAL = 1.5
 
-export default function HeroGarment() {
+export default function HeroGarment({
+  color = '#6366f1',
+  metalness = 0.6,
+  roughness = 0.3,
+  clearcoat = 0.4,
+}: {
+  color?: string
+  metalness?: number
+  roughness?: number
+  clearcoat?: number
+}) {
   const meshRef = useRef<Mesh>(null)
   const progress = useScrollStore((s) => s.progress)
   const currentRot = useRef(0)
@@ -26,10 +36,10 @@ export default function HeroGarment() {
     <mesh ref={meshRef} position={[0, 0, 0]}>
       <torusKnotGeometry args={[1, 0.35, 128, 32]} />
       <meshPhysicalMaterial
-        color="#6366f1"
-        metalness={0.6}
-        roughness={0.3}
-        clearcoat={0.4}
+        color={color}
+        metalness={metalness}
+        roughness={roughness}
+        clearcoat={clearcoat}
       />
     </mesh>
   )

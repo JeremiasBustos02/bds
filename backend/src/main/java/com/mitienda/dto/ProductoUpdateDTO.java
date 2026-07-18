@@ -12,6 +12,10 @@ public record ProductoUpdateDTO(
     @NotBlank String descripcion,
     @NotNull @Positive BigDecimal precioBase,
     @NotNull Categoria categoria,
+    String slug,
     String modelo3dUrl,
+    String detalleTela,
+    String detalleCorte,
+    String detalleCostura,
     boolean activo
 ) {}

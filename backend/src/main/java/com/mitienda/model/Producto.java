@@ -49,8 +49,20 @@ public class Producto {
     @Column(nullable = false)
     private boolean activo = true;
 
+    @Column(name = "slug", nullable = false)
+    private String slug;
+
     @Column(name = "modelo_3d_url")
     private String modelo3dUrl;
+
+    @Column(name = "detalle_tela", columnDefinition = "TEXT")
+    private String detalleTela;
+
+    @Column(name = "detalle_corte", columnDefinition = "TEXT")
+    private String detalleCorte;
+
+    @Column(name = "detalle_costura", columnDefinition = "TEXT")
+    private String detalleCostura;
 
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false)
@@ -64,14 +76,21 @@ public class Producto {
     private List<Variante> variantes = new ArrayList<>();
 
     public static Producto create(String nombre, String descripcion, BigDecimal precioBase,
-                                  Categoria categoria, String modelo3dUrl) {
+                                  Categoria categoria, String slug, String modelo3dUrl) {
         Producto producto = new Producto();
         producto.nombre = nombre;
         producto.descripcion = descripcion;
         producto.precioBase = precioBase;
         producto.categoria = categoria;
+        producto.slug = slug;
         producto.modelo3dUrl = modelo3dUrl;
         return producto;
+    }
+
+    public void agregarDetalles(String detalleTela, String detalleCorte, String detalleCostura) {
+        this.detalleTela = detalleTela;
+        this.detalleCorte = detalleCorte;
+        this.detalleCostura = detalleCostura;
     }
 
     public void agregarVariante(Variante variante) {
@@ -80,12 +99,18 @@ public class Producto {
     }
 
     public void actualizar(String nombre, String descripcion, BigDecimal precioBase,
-                           Categoria categoria, String modelo3dUrl, boolean activo) {
+                           Categoria categoria, String slug, String modelo3dUrl,
+                           String detalleTela, String detalleCorte, String detalleCostura,
+                           boolean activo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precioBase = precioBase;
         this.categoria = categoria;
+        this.slug = slug;
         this.modelo3dUrl = modelo3dUrl;
+        this.detalleTela = detalleTela;
+        this.detalleCorte = detalleCorte;
+        this.detalleCostura = detalleCostura;
         this.activo = activo;
     }
 

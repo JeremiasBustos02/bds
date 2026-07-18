@@ -20,4 +20,7 @@ public interface ProductoRepository extends JpaRepository<Producto, UUID> {
 
     @EntityGraph(attributePaths = {"variantes", "variantes.stock"})
     Optional<Producto> findById(UUID id);
+
+    @EntityGraph(attributePaths = {"variantes", "variantes.stock"})
+    Optional<Producto> findBySlugAndActivoTrue(String slug);
 }

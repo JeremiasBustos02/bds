@@ -45,6 +45,12 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<ProductoResponseDTO> obtenerPorSlug(@PathVariable String slug) {
+        ProductoResponseDTO producto = productoService.obtenerPorSlug(slug);
+        return ResponseEntity.ok(producto);
+    }
+
     @PostMapping
     public ResponseEntity<ProductoResponseDTO> crear(@Valid @RequestBody ProductoCreateDTO dto) {
         ProductoResponseDTO producto = productoService.crear(dto);

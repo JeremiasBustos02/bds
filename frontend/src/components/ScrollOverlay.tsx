@@ -14,12 +14,14 @@ export default function ScrollOverlay({
   className = '',
   align = 'center',
   indicator = false,
+  noEntry = false,
 }: {
   checkpoint: number
   children: ReactNode
   className?: string
   align?: 'center' | 'left' | 'right'
   indicator?: boolean
+  noEntry?: boolean
 }) {
   const progress = useScrollStore((s) => s.progress)
   const distance = Math.abs(progress - checkpoint)
@@ -54,7 +56,7 @@ export default function ScrollOverlay({
         {isVisible && (
           <motion.div
             key="content"
-            initial={entry.initial}
+            initial={noEntry ? false : entry.initial}
             animate={animate}
             exit={entry.exit}
             transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}

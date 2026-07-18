@@ -41,15 +41,25 @@ public class ProductoService {
         return ProductoResponseDTO.from(producto);
     }
 
+    public ProductoResponseDTO obtenerPorSlug(String slug) {
+        Producto producto = productoRepository.findBySlugAndActivoTrue(slug)
+            .orElseThrow(() -> new ProductoNotFoundException(slug));
+        return ProductoResponseDTO.from(producto);
+    }
+
     @Transactional
     public ProductoResponseDTO crear(ProductoCreateDTO dto) {
+        String slug = dto.slug() != null ? dto.slug() : generarSlug(dto.nombre());
         Producto producto = Producto.create(
             dto.nombre(),
             dto.descripcion(),
             dto.precioBase(),
             dto.categoria(),
+            slug,
             dto.modelo3dUrl()
         );
+
+        producto.agregarDetalles(dto.detalleTela(), dto.detalleCorte(), dto.detalleCostura());
 
         for (var vDto : dto.variantes()) {
             String sku = generarSku(producto, vDto.talle(), vDto.color());
@@ -66,8 +76,11 @@ public class ProductoService {
     public ProductoResponseDTO actualizar(UUID id, ProductoUpdateDTO dto) {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new ProductoNotFoundException(id));
+        String slug = dto.slug() != null ? dto.slug() : producto.getSlug();
         producto.actualizar(dto.nombre(), dto.descripcion(), dto.precioBase(),
-            dto.categoria(), dto.modelo3dUrl(), dto.activo());
+            dto.categoria(), slug, dto.modelo3dUrl(),
+            dto.detalleTela(), dto.detalleCorte(), dto.detalleCostura(),
+            dto.activo());
         return ProductoResponseDTO.from(producto);
     }
 
@@ -82,5 +95,18 @@ public class ProductoService {
         String cat = producto.getCategoria().name().substring(0, 3);
         String col = color.toUpperCase().replaceAll("[^A-Z]", "").substring(0, Math.min(3, color.length()));
         return cat + "-" + col + "-" + talle.name();
+    }
+
+    private String generarSlug(String nombre) {
+        return nombre.toLowerCase()
+            .replaceAll("[áäàâ]", "a")
+            .replaceAll("[éëèê]", "e")
+            .replaceAll("[íïìî]", "i")
+            .replaceAll("[óöòô]", "o")
+            .replaceAll("[úüùû]", "u")
+            .replaceAll("[^a-z0-9\\s-]", "")
+            .replaceAll("\\s+", "-")
+            .replaceAll("-+", "-")
+            .replaceAll("^-|-$", "");
     }
 }

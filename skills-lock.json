@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "skills": {
+    "deploy-to-vercel": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/deploy-to-vercel/SKILL.md",
+      "computedHash": "03e0eaaa9bf13ba1e7ffa387f5893de6f324c0868c627001f179395a8feaa7c9"
+    },
+    "domain-driven-design": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/domain-driven-design/SKILL.md",
+      "computedHash": "fa2a843c0476b57b6b7b4ce7eb7b06085f15e3c87cd94665e6021b0c178c2351"
+    },
+    "flyway-migrations": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/flyway-migrations/SKILL.md",
+      "computedHash": "0024cb0643afb1a4b527e0889efee82507483446d3d1ea4102e975724cc7118b"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "93f53fd1c0352d3d7ec17b8f73d7351bf76f4821e55d123c9d2abc2c53ba48e4"
+    },
+    "hateoas": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/hateoas/SKILL.md",
+      "computedHash": "4d3b81d050579b779c35e40eb713d459dfd9cebc3a28545d80b833ffd31b5498"
+    },
+    "hexagonal-architecture": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/hexagonal-architecture/SKILL.md",
+      "computedHash": "15f927839dbfc9ad8e616012db1e7c56f5e14953a864fc85d55a5aaea3067e42"
+    },
+    "layered-architecture": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/layered-architecture/SKILL.md",
+      "computedHash": "d9e15ff43882a3b737a0422a6e78020f854245e5b8267293e0a9b080f8053190"
+    },
+    "mcp-server": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/mcp-server/SKILL.md",
+      "computedHash": "7875c67fa2828c103303ec23d45e5e82a3f63dcfc04cfe1432d7c1d51835d51b"
+    },
+    "multi-module-maven": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/multi-module-maven/SKILL.md",
+      "computedHash": "1c2ceaacf8059454f4efa947aaece5555f7234e863010913a421f7d0b23dfcb0"
+    },
+    "oauth2-resource-server": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/oauth2-resource-server/SKILL.md",
+      "computedHash": "45c298b70de9aa6136e52bc13f2b557479def4039a83165d7ba936834dd93b56"
+    },
+    "openapi-first": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/openapi-first/SKILL.md",
+      "computedHash": "31bfdf5414661f4857c1507307474966abd0864aaa81dafc806631f941fe0862"
+    },
+    "problem-details-rfc9457": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/problem-details-rfc9457/SKILL.md",
+      "computedHash": "655ca324f75061a055ee0081f52dc7fcb4835ad9f4a34149d0d57c76461c0ed2"
+    },
+    "r3f-animation": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-animation/SKILL.md",
+      "computedHash": "c9e9ec609496aa89f44757212e220f601ca1387e38644a47603c5fb415eb2bb5"
+    },
+    "r3f-fundamentals": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-fundamentals/SKILL.md",
+      "computedHash": "45fdccb223eb747d7194d200e3f219820ada0cc6fa0226103de96261a22fdb3c"
+    },
+    "r3f-geometry": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-geometry/SKILL.md",
+      "computedHash": "2ab2668ab8e03769efe4a8962533b7e23d8f5fbd46c87f26101572ca63441014"
+    },
+    "r3f-interaction": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-interaction/SKILL.md",
+      "computedHash": "702bc09fc0c20a325b93bacd5fc1361eae04b46dcb90534c04bd3c87a5cf52d7"
+    },
+    "r3f-lighting": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-lighting/SKILL.md",
+      "computedHash": "1ceb9cb1c883419c880a470c7b15597683f2051f3ec6d193723a14285b18baf9"
+    },
+    "r3f-loaders": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-loaders/SKILL.md",
+      "computedHash": "efc962e611bbde7f7c1b2d9ba8259b36c72c6adffc3f0a7d4f73354c4d9a2fde"
+    },
+    "r3f-materials": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-materials/SKILL.md",
+      "computedHash": "f8143ce23054807308dea32cb20e21b9d903909f87bc601a73cf19cb96136b05"
+    },
+    "r3f-physics": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-physics/SKILL.md",
+      "computedHash": "0c3021872a32f7ce3a87d0ab1a260380de0b21b0d13a2ac64108ff1db13aaa5f"
+    },
+    "r3f-postprocessing": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-postprocessing/SKILL.md",
+      "computedHash": "6dcd0f2df52c1e8b2f4805d6ace1a43738c58a06d4ee2f884b665c504647a00c"
+    },
+    "r3f-shaders": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-shaders/SKILL.md",
+      "computedHash": "160c354cf7dfe915c81107bf1253ad3e4550f79dc9572186099dd422d51c6d07"
+    },
+    "r3f-textures": {
+      "source": "EnzeD/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-textures/SKILL.md",
+      "computedHash": "62a1e9279a81566d4606ff915dbf81d068e4112755771aa9ba45ee533e0c0d2f"
+    },
+    "rest-api-conventions": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/rest-api-conventions/SKILL.md",
+      "computedHash": "f47460c1648730904c6121262ae09da5ce773e2d102883e67ef35deb6d45d56d"
+    },
+    "spring-batch": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/spring-batch/SKILL.md",
+      "computedHash": "f360c54e0e93bbd87cdc7a86fee219316bd30afcff5347ffa77a553749ce0f80"
+    },
+    "spring-data-jpa": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/spring-data-jpa/SKILL.md",
+      "computedHash": "5d198c3a13c5a9150587fe6aafc593f1ae82238341c91035833c6b96906109af"
+    },
+    "spring-data-redis": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/spring-data-redis/SKILL.md",
+      "computedHash": "d63e649f3602f7236489a4366f756c72d769a9b37e9ab1d1d126d726335fbe31"
+    },
+    "spring-security-jwt": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/spring-security-jwt/SKILL.md",
+      "computedHash": "0bee496385109851c2c9a4e2861209bcc8f40c18868fec7f080deb66fd1c1817"
+    },
+    "transactional-patterns": {
+      "source": "rrezartprebreza/spring-boot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-3/transactional-patterns/SKILL.md",
+      "computedHash": "46ccb6fdab64489592a6acbad4eec9ac188834d449337534c77a2df5f1396b6c"
+    },
+    "vercel-cli-with-tokens": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-cli-with-tokens/SKILL.md",
+      "computedHash": "eb16b20dcbe6ce51e0372083d624e0847af1b09487ec99249227d5a8eddebfc0"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "computedHash": "575757e3e25761c8c562d6e395d29f0b76c98b1273c0bd72d88e6ab1bc9c7d42"
+    },
+    "vercel-optimize": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-optimize/SKILL.md",
+      "computedHash": "ad0ef9c5c980f824e2ec19cba5c45426aba923a17e71fbaf6d1830574b62cc44"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "computedHash": "41d24eafa7c3d82e270439808f7cfbc4d51aeb2d14f2809a2267c16275784d06"
+    },
+    "vercel-react-view-transitions": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-view-transitions/SKILL.md",
+      "computedHash": "c8952fc9127fa0564d0cb71dccb4215a5608ac933b5831104f09173a97a46f85"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    },
+    "writing-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/writing-guidelines/SKILL.md",
+      "computedHash": "25aa3a33a97bddbcb1847ce4a6169106ec25e5b19b15b99c66e75ab383866ef2"
+    }
+  }
+}

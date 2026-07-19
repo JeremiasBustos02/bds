@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCartStore, selectCantidadTotal } from '../store/useCartStore'
+import { useAuthStore } from '../store/useAuthStore'
 import { useProducts } from '../hooks/useProducts'
 import type { Categoria } from '../lib/types'
 import GlassPanel from './GlassPanel'
@@ -16,6 +17,9 @@ const CATEGORY_INFO: Record<Categoria, { label: string; slug: string }> = {
 
 export default function FloatingNavbar() {
   const cantidadTotal = useCartStore(selectCantidadTotal)
+  const navigate = useNavigate()
+  const usuario = useAuthStore((s) => s.usuario)
+  const logout = useAuthStore((s) => s.logout)
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [coleccionOpen, setColeccionOpen] = useState(false)
@@ -141,25 +145,63 @@ export default function FloatingNavbar() {
                     transition={{ duration: 0.15, ease: 'easeOut' }}
                     className="absolute right-0 top-full mt-2"
                   >
-                    <GlassPanel className="min-w-[180px] rounded-xl p-2 shadow-xl">
+                    <GlassPanel className="min-w-[200px] rounded-xl p-2 shadow-xl">
                       <div className="px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-neutral-500">
                         Cuenta
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => { setProfileOpen(false) }}
-                        className="block w-full rounded-lg px-3 py-2 text-left text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
-                      >
-                        Iniciar sesión
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => { setProfileOpen(false) }}
-                        className="block w-full rounded-lg px-3 py-2 text-left text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
-                      >
-                        Crear cuenta
-                      </button>
-                      {/* Cuando haya auth, mostrar en vez: Mi cuenta / Mis pedidos / Cerrar sesión */}
+
+                      {usuario ? (
+                        <>
+                          <div className="px-3 py-2 text-sm font-medium text-white">
+                            {usuario.nombre} {usuario.apellido}
+                          </div>
+
+                          <Link
+                            to="/mis-pedidos"
+                            onClick={() => setProfileOpen(false)}
+                            className="block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            Mis pedidos
+                          </Link>
+
+                          {usuario.rol === 'ADMIN' && (
+                            <Link
+                              to="/admin"
+                              onClick={() => setProfileOpen(false)}
+                              className="block rounded-lg px-3 py-2 text-sm text-amber-400 transition-colors hover:bg-white/10 hover:text-amber-300"
+                            >
+                              Panel de administración
+                            </Link>
+                          )}
+
+                          <div className="my-1 border-t border-white/[0.06]" />
+
+                          <button
+                            type="button"
+                            onClick={() => { logout(); setProfileOpen(false); navigate('/') }}
+                            className="block w-full rounded-lg px-3 py-2 text-left text-sm text-neutral-400 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            Cerrar sesión
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            to="/login"
+                            onClick={() => setProfileOpen(false)}
+                            className="block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            Iniciar sesión
+                          </Link>
+                          <Link
+                            to="/registro"
+                            onClick={() => setProfileOpen(false)}
+                            className="block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            Crear cuenta
+                          </Link>
+                        </>
+                      )}
                     </GlassPanel>
                   </motion.div>
                 )}

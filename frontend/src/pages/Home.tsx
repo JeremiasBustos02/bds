@@ -23,7 +23,7 @@ export default function Home() {
       <HeroSection products={products} />
       <CtaSection />
       <ProductCarousel products={products} />
-      <div className="pb-4 pt-12 md:pb-6">
+      <div className="overflow-x-hidden pb-4 pt-12 md:pb-6">
         <FatFooter />
       </div>
     </div>

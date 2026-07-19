@@ -27,7 +27,7 @@ export default function FatFooter() {
             <Link to="/" className="text-lg font-extrabold tracking-tight text-white">
               BDS
             </Link>
-            <p className="mt-3 max-w-xs text-sm font-serif leading-relaxed text-neutral-400">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-neutral-400">
               Ropa con identidad. Explorá cada prenda en 3D antes de comprar.
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function FatFooter() {
 
         <div className="mt-12 border-t border-white/[0.06] pt-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-xs font-serif text-neutral-400">
+            <p className="text-xs text-neutral-400">
               &copy; {new Date().getFullYear()} BDS. Todos los derechos reservados.
             </p>
             <div className="flex gap-4">

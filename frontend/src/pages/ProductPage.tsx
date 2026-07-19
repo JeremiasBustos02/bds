@@ -78,7 +78,7 @@ export default function ProductPage() {
 
   return (
     <>
-      <div ref={containerRef} className="relative w-full" style={{ height: '400vh' }}>
+      <div ref={containerRef} className="relative w-full" style={{ height: '500vh' }}>
         <FloatingNavbar />
 
         <div className="fixed inset-0 z-0">
@@ -163,7 +163,7 @@ export default function ProductPage() {
         </div>
       </div>
 
-      <div className="pb-4 pt-12 md:pb-6">
+      <div className="overflow-x-hidden pb-4 pt-12 md:pb-6">
         <FatFooter />
       </div>
     </>

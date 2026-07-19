@@ -1,4 +1,6 @@
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/mitienda}
     username: postgres
@@ -16,9 +18,23 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     validate-on-migrate: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
   devtools:
     restart:
       enabled: true
 
 server:
   port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:a291bHVtcGlhbmFzYWx0YW1hcmVjYWxscXVlamFkZXZzdWVsb3M=}
+  expiration-ms: 86400000

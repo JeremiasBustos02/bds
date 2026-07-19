@@ -1,4 +1,5 @@
 export type Categoria = 'REMERAS' | 'BUZOS' | 'PANTALONES' | 'ACCESORIOS'
+export type RolUsuario = 'CLIENTE' | 'ADMIN'
 
 export interface CartItem {
   productoId: string

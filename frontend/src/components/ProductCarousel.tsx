@@ -201,7 +201,7 @@ export default function ProductCarousel({
                     <h3 className="text-base font-semibold text-white">
                       {product.nombre}
                     </h3>
-                    <p className="mt-1 text-sm font-serif text-neutral-400">
+                    <p className="mt-1 text-base font-bold text-neutral-300">
                       ${product.precioBase.toLocaleString('es-AR')}
                     </p>
                   </div>

@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 import type { ProductoResponse, Categoria } from '../lib/types'
 
+interface CacheEntry {
+  products: ProductoResponse[]
+  timestamp: number
+}
+
+const cache = new Map<string, CacheEntry>()
+const CACHE_TTL = 30_000
+
 interface UseProductsResult {
   products: ProductoResponse[]
   loading: boolean
@@ -11,12 +19,20 @@ export function useProducts(categoria?: Categoria): UseProductsResult {
   const [products, setProducts] = useState<ProductoResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const cacheKey = categoria ?? '__ALL__'
 
   useEffect(() => {
+    const cached = cache.get(cacheKey)
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      setProducts(cached.products)
+      setLoading(false)
+      return
+    }
+
     let cancelled = false
 
     async function fetchProducts() {
-      setLoading(true)
+      if (!cached) setLoading(true)
       setError(null)
 
       try {
@@ -32,6 +48,7 @@ export function useProducts(categoria?: Categoria): UseProductsResult {
         const data = (await res.json()) as { content: ProductoResponse[] }
 
         if (!cancelled) {
+          cache.set(cacheKey, { products: data.content, timestamp: Date.now() })
           setProducts(data.content)
           setLoading(false)
         }
@@ -48,7 +65,7 @@ export function useProducts(categoria?: Categoria): UseProductsResult {
     return () => {
       cancelled = true
     }
-  }, [categoria])
+  }, [categoria, cacheKey])
 
   return { products, loading, error }
 }

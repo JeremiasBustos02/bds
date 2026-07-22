@@ -1,32 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { ProductoResponse, Categoria } from '../lib/types'
-
-const CATEGORY_INFO: Record<
-  Categoria,
-  { label: string; color: string; bgClass: string }
-> = {
-  REMERAS: {
-    label: 'Remeras',
-    color: '#6366f1',
-    bgClass: 'from-indigo-900/40 to-indigo-950/40',
-  },
-  BUZOS: {
-    label: 'Buzos',
-    color: '#8b5cf6',
-    bgClass: 'from-violet-900/40 to-violet-950/40',
-  },
-  PANTALONES: {
-    label: 'Pantalones',
-    color: '#f59e0b',
-    bgClass: 'from-amber-900/40 to-amber-950/40',
-  },
-  ACCESORIOS: {
-    label: 'Accesorios',
-    color: '#10b981',
-    bgClass: 'from-emerald-900/40 to-emerald-950/40',
-  },
-}
+import { CATEGORY_LABEL, CATEGORY_BG } from '../lib/categoryColors'
 
 const containerVariants = {
   hidden: {},
@@ -76,15 +51,14 @@ export default function CategoryGrid({
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         {categories.map(([cat, count]) => {
-          const info = CATEGORY_INFO[cat]
           return (
             <motion.div
               key={cat}
               variants={itemVariants}
               onClick={() => navigate(`/categoria/${cat.toLowerCase()}`)}
-              className={`cursor-pointer rounded-xl bg-gradient-to-br ${info.bgClass} border border-white/10 p-8 transition-all duration-300 hover:border-white/30 hover:scale-[1.02]`}
+              className={`cursor-pointer rounded-xl bg-gradient-to-br ${CATEGORY_BG[cat]} border border-white/10 p-8 transition-all duration-300 hover:border-white/30 hover:scale-105`}
             >
-              <h3 className="text-2xl font-semibold text-white">{info.label}</h3>
+              <h3 className="text-2xl font-semibold text-white">{CATEGORY_LABEL[cat]}</h3>
               <p className="mt-2 text-sm font-serif text-neutral-400">
                 {count} producto{count !== 1 ? 's' : ''}
               </p>

@@ -35,7 +35,9 @@
 │   │   └── lib/           # Utilidades (GSAP setup, helpers)
 │   ├── vite.config.ts
 │   ├── .eslintrc.cjs
-│   └── .prettierrc
+│   ├── .prettierrc
+│   ├── package.json       # npm dev:bg para correr en background
+│   └── run-bg.ps1         # Helper: levanta frontend en background + log
 ├── backend/
 │   ├── src/main/java/com/mitienda/
 │   │   ├── config/
@@ -46,8 +48,88 @@
 │   │   ├── dto/
 │   │   └── exception/
 │   └── src/main/resources/application.yml
+│   ├── pom.xml
+│   └── run-bg.ps1         # Helper: levanta backend en background + log
 ├── docker-compose.yml
+├── kill-all.ps1           # Mata java + node y verifica puertos libres
 └── AGENTS.md
+```
+
+## Cómo correr procesos de larga duración — LEER SIEMPRE ANTES DE PROBAR CAMBIOS
+
+`mvnw spring-boot:run` y `npm run dev` son servidores que nunca terminan.
+**NUNCA ejecutarlos en foreground** esperando que terminen. Siempre correrlos
+en background con salida redirigida a un archivo de log.
+
+### Antes de arrancar: matar procesos viejos
+
+```powershell
+.\kill-all.ps1
+```
+
+Esto mata todos los procesos java y node, espera 3 segundos y verifica
+que los puertos 8080 (backend) y 5173 (frontend) queden libres.
+
+Si preferís verificar manualmente:
+```powershell
+Get-Process -Name "java","node" -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Seconds 3
+netstat -ano | Select-String ":8080 "
+netstat -ano | Select-String ":5173 "
+```
+
+### Backend (con script helper)
+
+```powershell
+cd backend
+.\run-bg.ps1
+```
+
+Esto:
+1. Mata cualquier java previo en puerto 8080
+2. Setea `DB_PASSWORD` y `JWT_SECRET`
+3. Corre `mvnw spring-boot:run` en background
+4. Redirige stdout+stderr a `backend/logs/backend.log`
+5. Espera 15 segundos y verifica `GET /api/health`
+
+Para ver el log:
+```powershell
+Get-Content backend/logs/backend.log -Tail 50 -Wait
+```
+
+Para personalizar credenciales:
+```powershell
+.\run-bg.ps1 -DbPassword "miPass" -JwtSecret "base64secret=="
+```
+
+### Frontend (con script helper)
+
+```powershell
+cd frontend
+.\run-bg.ps1
+```
+O via npm:
+```powershell
+cd frontend
+npm run dev:bg
+```
+
+Esto:
+1. Mata cualquier node previo en puerto 5173
+2. Corre `npx vite --port 5173` en background
+3. Redirige stdout+stderr a `frontend/logs/frontend.log`
+4. Espera 8 segundos y verifica que HTTP 200 responda
+
+Para ver el log:
+```powershell
+Get-Content frontend/logs/frontend.log -Tail 30 -Wait
+```
+
+### Verificar que ambos están levantados
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/health   # → {"status":"ok"}
+Invoke-WebRequest http://localhost:5173/              # → 200
 ```
 
 ## Convenciones
@@ -69,41 +151,3 @@
 - Cada store de Zustand en su propio archivo dentro de `store/`
 - Componentes 3D en `scene/`, UI 2D en `components/`
 - Sin `any` implícito — ESLint lo rechaza como error
-
-## Cómo correr servicios de larga duración
-
-`spring-boot:run` es un proceso servidor que nunca termina. No ejecutarlo en foreground esperando que termine.
-
-### Backend (background + log a archivo)
-
-```powershell
-# Iniciar
-cd backend
-$env:SPRING_DATASOURCE_PASSWORD='postgres123'
-Start-Process -PassThru -NoNewWindow -FilePath 'cmd.exe' -ArgumentList '/c "mvnw.cmd" spring-boot:run'
-# El proceso PID se muestra; guardarlo si se necesita matar después
-
-# Verificar que levantó
-Start-Sleep -Seconds 15
-Invoke-RestMethod http://localhost:8080/api/health
-```
-
-### Frontend
-
-```powershell
-cd frontend
-Start-Process -PassThru -NoNewWindow -FilePath 'cmd.exe' -ArgumentList '/c "npx.cmd" vite'
-Start-Sleep -Seconds 5
-```
-
-### Matar procesos viejos antes de reiniciar
-
-```powershell
-Get-Process -Name "java" -ErrorAction SilentlyContinue | Stop-Process -Force
-Get-Process -Name "node" -ErrorAction SilentlyContinue | Stop-Process -Force
-Start-Sleep -Seconds 3
-
-# Verificar puertos libres
-netstat -ano | Select-String ":8080 "
-netstat -ano | Select-String ":5173 "
-```

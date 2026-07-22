@@ -1,13 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { RolUsuario } from '../lib/types'
+import { isTokenExpired } from '../lib/jwt'
 
 export interface AuthUser {
   id: string
   email: string
   nombre: string
   apellido: string
+  telefono?: string
   rol: RolUsuario
+  tienePassword: boolean
 }
 
 interface RegisterData {
@@ -18,6 +21,7 @@ interface RegisterData {
 }
 
 interface AuthResponse {
+  id: string
   token: string
   email: string
   nombre: string
@@ -34,6 +38,7 @@ interface AuthState {
   logout: () => void
   restoreSession: () => Promise<void>
   loginWithGoogleOAuth: (token: string) => Promise<void>
+  updateUser: (fields: Partial<AuthUser>) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -61,11 +66,12 @@ export const useAuthStore = create<AuthState>()(
           set({
             token: data.token,
             usuario: {
-              id: '',
+              id: data.id,
               email: data.email,
               nombre: data.nombre,
               apellido: data.apellido,
               rol: data.rol,
+              tienePassword: true,
             },
             loading: false,
           })
@@ -93,11 +99,12 @@ export const useAuthStore = create<AuthState>()(
           set({
             token: authRes.token,
             usuario: {
-              id: '',
+              id: authRes.id,
               email: authRes.email,
               nombre: authRes.nombre,
               apellido: authRes.apellido,
               rol: authRes.rol,
+              tienePassword: true,
             },
             loading: false,
           })
@@ -126,9 +133,21 @@ export const useAuthStore = create<AuthState>()(
         set({ token: null, usuario: null })
       },
 
+      updateUser: (fields) => {
+        const { usuario } = get()
+        if (usuario) {
+          set({ usuario: { ...usuario, ...fields } })
+        }
+      },
+
       restoreSession: async () => {
         const { token } = get()
         if (!token) return
+
+        if (isTokenExpired(token)) {
+          set({ token: null, usuario: null })
+          return
+        }
 
         try {
           const res = await fetch('/api/auth/me', {

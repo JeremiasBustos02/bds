@@ -39,7 +39,7 @@ export default function CheckoutPlaceholder() {
             <button
               type="button"
               onClick={() => navigate('/carrito')}
-              className="mt-6 w-full rounded-full bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-[0.98]"
+              className="mt-6 w-full rounded-full bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-95"
             >
               Volver al carrito
             </button>

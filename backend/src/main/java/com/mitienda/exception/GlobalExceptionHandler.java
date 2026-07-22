@@ -1,6 +1,7 @@
 package com.mitienda.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -45,12 +46,35 @@ public class GlobalExceptionHandler {
             ));
     }
 
+    @ExceptionHandler(StockInsuficienteException.class)
+    public ResponseEntity<Map<String, Object>> handleStockInsuficiente(StockInsuficienteException ex) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(Map.of(
+                "error", "Stock insuficiente",
+                "sku", ex.getSku(),
+                "solicitado", ex.getSolicitado(),
+                "disponible", ex.getDisponible(),
+                "mensaje", ex.getMessage()
+            ));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
+            .status(HttpStatus.BAD_REQUEST)
             .body(Map.of(
-                "error", "Credenciales inválidas",
+                "error", "Solicitud inválida",
+                "mensaje", ex.getMessage()
+            ));
+    }
+
+    @ExceptionHandler(TransicionEstadoInvalidaException.class)
+    public ResponseEntity<Map<String, String>> handleTransicionInvalida(TransicionEstadoInvalidaException ex) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(Map.of(
+                "error", "Transición de estado inválida",
                 "mensaje", ex.getMessage()
             ));
     }
@@ -85,6 +109,19 @@ public class GlobalExceptionHandler {
             .body(Map.of(
                 "error", "Validación fallida",
                 "campo", campo,
+                "mensaje", mensaje
+            ));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrity(DataIntegrityViolationException ex) {
+        String mensaje = ex.getMessage() != null && ex.getMessage().contains("variantes_sku_key")
+            ? "Ya existe una variante con esa combinación de categoría, color y talle. Intentá de nuevo."
+            : "Error de integridad de datos. Verificá que los datos no estén duplicados.";
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
+            .body(Map.of(
+                "error", "Conflicto de datos",
                 "mensaje", mensaje
             ));
     }

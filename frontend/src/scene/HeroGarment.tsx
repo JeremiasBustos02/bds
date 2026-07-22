@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useScrollStore } from '../store/useScrollStore'
 import type { Mesh } from 'three'
@@ -20,6 +20,21 @@ export default function HeroGarment({
   clearcoat?: number
 }) {
   const meshRef = useRef<Mesh>(null)
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => {
+      if (mesh) {
+        mesh.geometry.dispose()
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((m) => m.dispose())
+        } else {
+          mesh.material.dispose()
+        }
+      }
+    }
+  }, [])
+
   const progress = useScrollStore((s) => s.progress)
   const currentRot = useRef(0)
   const { size } = useThree()

@@ -24,7 +24,7 @@ public class OAuthUserService {
                     newUser.setPasswordHash(null);
                     newUser.setNombre(givenName != null ? givenName : "");
                     newUser.setApellido(familyName != null ? familyName : "");
-                    newUser.setRol(RolUsuario.CLIENTE);
+                    newUser.cambiarRol(RolUsuario.CLIENTE);
                     return usuarioRepository.save(newUser);
                 });
 

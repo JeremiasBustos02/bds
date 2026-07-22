@@ -10,7 +10,9 @@ public record MeResponse(
     String email,
     String nombre,
     String apellido,
-    RolUsuario rol
+    String telefono,
+    RolUsuario rol,
+    boolean tienePassword
 ) {
     public static MeResponse from(Usuario usuario) {
         return new MeResponse(
@@ -18,7 +20,9 @@ public record MeResponse(
             usuario.getEmail(),
             usuario.getNombre(),
             usuario.getApellido(),
-            usuario.getRol()
+            usuario.getTelefono(),
+            usuario.getRol(),
+            usuario.getPasswordHash() != null
         );
     }
 }

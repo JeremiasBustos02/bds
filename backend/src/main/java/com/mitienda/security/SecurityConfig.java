@@ -41,8 +41,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/productos/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/productos/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasRole("ADMIN")
                 .requestMatchers("/api/auth/registro").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/exchange").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                 .anyRequest().authenticated()
             )

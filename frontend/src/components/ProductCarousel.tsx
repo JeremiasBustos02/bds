@@ -3,20 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ProductoResponse, Categoria } from '../lib/types'
 import MiniProductPreview from '../scene/MiniProductPreview'
-
-const CATEGORY_COLORS: Record<Categoria, string> = {
-  REMERAS: '#6366f1',
-  BUZOS: '#8b5cf6',
-  PANTALONES: '#f59e0b',
-  ACCESORIOS: '#10b981',
-}
-
-const CATEGORY_BG: Record<Categoria, string> = {
-  REMERAS: 'from-indigo-600/20 to-indigo-900/30',
-  BUZOS: 'from-violet-600/20 to-violet-900/30',
-  PANTALONES: 'from-amber-600/20 to-amber-900/30',
-  ACCESORIOS: 'from-emerald-600/20 to-emerald-900/30',
-}
+import { CATEGORY_COLORS, CATEGORY_BG } from '../lib/categoryColors'
 
 type FilterOption = 'TODOS' | Categoria
 
@@ -151,7 +138,6 @@ export default function ProductCarousel({
               <motion.div
                 key={product.id}
                 variants={itemVariants}
-                className="snap-start shrink-0"
                 onMouseEnter={() => handleMouseEnter(product.id)}
                 onMouseLeave={handleMouseLeave}
                 className="snap-start shrink-0 w-[44vw] min-w-[140px] max-w-[180px] sm:w-[28vw] sm:min-w-[220px] sm:max-w-[320px]"
@@ -160,7 +146,7 @@ export default function ProductCarousel({
                   onClick={() => navigate(`/producto/${product.slug}`)}
                   className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 transition-all duration-300"
                   style={{
-                    transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+                    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                     zIndex: isHovered ? 10 : 1,
                   }}
                 >

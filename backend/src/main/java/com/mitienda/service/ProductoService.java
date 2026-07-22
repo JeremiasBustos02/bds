@@ -9,6 +9,7 @@ import com.mitienda.model.Producto;
 import com.mitienda.model.Talle;
 import com.mitienda.model.Variante;
 import com.mitienda.repository.ProductoRepository;
+import com.mitienda.repository.VarianteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,6 +26,11 @@ import java.util.UUID;
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final VarianteRepository varianteRepository;
+
+    public List<Categoria> obtenerCategorias() {
+        return productoRepository.findCategoriasByActivoTrue();
+    }
 
     public Page<ProductoResponseDTO> listar(Categoria categoria, Pageable pageable) {
         Page<Producto> productos;
@@ -39,6 +46,12 @@ public class ProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new ProductoNotFoundException(id));
         return ProductoResponseDTO.from(producto);
+    }
+
+    public List<ProductoResponseDTO> listarTodos() {
+        return productoRepository.findAllByOrderByFechaCreacionDesc().stream()
+            .map(ProductoResponseDTO::from)
+            .toList();
     }
 
     public ProductoResponseDTO obtenerPorSlug(String slug) {
@@ -62,7 +75,7 @@ public class ProductoService {
         producto.agregarDetalles(dto.detalleTela(), dto.detalleCorte(), dto.detalleCostura());
 
         for (var vDto : dto.variantes()) {
-            String sku = generarSku(producto, vDto.talle(), vDto.color());
+            String sku = generarSkuUnico(producto, vDto.talle(), vDto.color());
             Variante variante = Variante.create(vDto.talle(), vDto.color(), sku, vDto.precioAdicional());
             variante.agregarStock(vDto.cantidadInicial());
             producto.agregarVariante(variante);
@@ -94,7 +107,26 @@ public class ProductoService {
     private String generarSku(Producto producto, Talle talle, String color) {
         String cat = producto.getCategoria().name().substring(0, 3);
         String col = color.toUpperCase().replaceAll("[^A-Z]", "").substring(0, Math.min(3, color.length()));
-        return cat + "-" + col + "-" + talle.name();
+        String nombreParte = abreviarNombre(producto.getNombre());
+        return cat + "-" + col + "-" + nombreParte + "-" + talle.name();
+    }
+
+    private String abreviarNombre(String nombre) {
+        String limpio = nombre.toUpperCase().replaceAll("[^A-Z]", "");
+        if (limpio.isEmpty()) limpio = "X";
+        int len = Math.min(3, limpio.length());
+        return limpio.substring(0, len);
+    }
+
+    private String generarSkuUnico(Producto producto, Talle talle, String color) {
+        String base = generarSku(producto, talle, color);
+        String sku = base;
+        int sufijo = 1;
+        while (varianteRepository.findBySku(sku).isPresent()) {
+            sku = base + "-" + sufijo;
+            sufijo++;
+        }
+        return sku;
     }
 
     private String generarSlug(String nombre) {

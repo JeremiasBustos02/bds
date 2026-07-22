@@ -1,16 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useFrame, Canvas } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
 import type { Mesh, Group } from 'three'
-import type { ProductoResponse, Categoria } from '../lib/types'
-
-const CATEGORY_COLORS: Record<Categoria, string> = {
-  REMERAS: '#6366f1',
-  BUZOS: '#8b5cf6',
-  PANTALONES: '#f59e0b',
-  ACCESORIOS: '#10b981',
-}
+import type { ProductoResponse } from '../lib/types'
+import { CATEGORY_COLORS } from '../lib/categoryColors'
 
 const ARC_START = -0.55
 const ARC_END = 0.55
@@ -38,6 +32,21 @@ function CarouselItem({
   total: number
 }) {
   const meshRef = useRef<Mesh>(null)
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => {
+      if (mesh) {
+        mesh.geometry.dispose()
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((m) => m.dispose())
+        } else {
+          mesh.material.dispose()
+        }
+      }
+    }
+  }, [])
+
   const [hovered, setHovered] = useState(false)
   const navigate = useNavigate()
 
@@ -139,7 +148,7 @@ export default function ProductCarousel3D({
     <Canvas
       dpr={[1, 2]}
       camera={{ position: [0, 0, 5], fov: 42 }}
-      frameloop="always"
+      frameloop="always" /* rotación idle continua de CarouselItem -> always necesario */
       style={{ width: '100%', height: '100%' }}
     >
       <ambientLight intensity={0.3} />

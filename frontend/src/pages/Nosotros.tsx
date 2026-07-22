@@ -74,7 +74,7 @@ export default function Nosotros() {
       <FloatingNavbar />
 
       {/* ── Hero ── */}
-      <section className="relative flex min-h-screen items-end pb-20 pt-32">
+      <section className="relative flex min-h-screen items-end pb-20 pt-navbar-offset">
         <GlassPanel className="absolute -left-6 top-[18%] h-[55%] w-[60%] rounded-[3rem] sm:-left-12 sm:w-[50%]" />
         <div className="relative z-10 flex w-full flex-col px-6 sm:px-12 md:px-16">
           <FadeIn>

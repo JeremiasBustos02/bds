@@ -19,6 +19,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
     private static final String FRONTEND_URL = "http://localhost:5173";
 
     private final OAuthUserService oAuthUserService;
+    private final OAuthCodeStore oAuthCodeStore;
 
     @Override
     public void onAuthenticationSuccess(
@@ -40,6 +41,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         String jwt = oAuthUserService.loginOrCreateWithGoogle(email, givenName, familyName);
-        response.sendRedirect(FRONTEND_URL + "/auth/callback?token=" + jwt);
+        String code = oAuthCodeStore.store(jwt);
+        response.sendRedirect(FRONTEND_URL + "/auth/callback?code=" + code);
     }
 }

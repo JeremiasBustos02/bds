@@ -1,54 +1,11 @@
 import { useState, useEffect, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { ProductoResponse, Categoria, Talle } from '../lib/types'
+import type { ProductoResponse, Talle } from '../lib/types'
 import { useCartStore } from '../store/useCartStore'
 import GlassPanel from './GlassPanel'
 import Toast from './Toast'
-
-const CATEGORY_LABEL: Record<Categoria, string> = {
-  REMERAS: 'Remeras',
-  BUZOS: 'Buzos',
-  PANTALONES: 'Pantalones',
-  ACCESORIOS: 'Accesorios',
-}
-
-const CATEGORY_BG: Record<Categoria, string> = {
-  REMERAS: 'from-indigo-600/20 to-indigo-900/30',
-  BUZOS: 'from-violet-600/20 to-violet-900/30',
-  PANTALONES: 'from-amber-600/20 to-amber-900/30',
-  ACCESORIOS: 'from-emerald-600/20 to-emerald-900/30',
-}
-
-const CATEGORY_GALLERY: Record<Categoria, string[]> = {
-  REMERAS: [
-    'from-indigo-600/20 to-indigo-900/30',
-    'from-indigo-500/15 to-indigo-800/35',
-    'from-indigo-700/25 to-indigo-950/40',
-  ],
-  BUZOS: [
-    'from-violet-600/20 to-violet-900/30',
-    'from-violet-500/15 to-violet-800/35',
-    'from-violet-700/25 to-violet-950/40',
-  ],
-  PANTALONES: [
-    'from-amber-600/20 to-amber-900/30',
-    'from-amber-500/15 to-amber-800/35',
-    'from-amber-700/25 to-amber-950/40',
-  ],
-  ACCESORIOS: [
-    'from-emerald-600/20 to-emerald-900/30',
-    'from-emerald-500/15 to-emerald-800/35',
-    'from-emerald-700/25 to-emerald-950/40',
-  ],
-}
-
-const CATEGORY_TAG_BG: Record<Categoria, string> = {
-  REMERAS: 'bg-indigo-500/20 text-indigo-300',
-  BUZOS: 'bg-violet-500/20 text-violet-300',
-  PANTALONES: 'bg-amber-500/20 text-amber-300',
-  ACCESORIOS: 'bg-emerald-500/20 text-emerald-300',
-}
+import { CATEGORY_LABEL, CATEGORY_BG, CATEGORY_GALLERY, CATEGORY_TAG_BG } from '../lib/categoryColors'
 
 const SIZE_GUIDE_ENTRIES: { talle: Talle; pecho: number; cintura: number; largo: number }[] = [
   { talle: 'XS', pecho: 86, cintura: 70, largo: 62 },
@@ -687,7 +644,7 @@ export default function PurchasePanel({
                 onClick={handleAddToCart}
                 className={`w-full rounded-full px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition-all ${
                   selected
-                    ? 'bg-white text-neutral-900 hover:bg-neutral-200 hover:scale-[1.02] active:scale-[0.98]'
+                    ? 'bg-white text-neutral-900 hover:bg-neutral-200 hover:scale-105 active:scale-95'
                     : 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
                 }`}
               >
@@ -699,7 +656,7 @@ export default function PurchasePanel({
                 onClick={handleBuyNow}
                 className={`w-full rounded-full border px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium transition-all ${
                   selected
-                    ? 'border-white/20 text-white hover:bg-white/10 active:scale-[0.98]'
+                    ? 'border-white/20 text-white hover:bg-white/10 active:scale-95'
                     : 'border-neutral-700 text-neutral-600 cursor-not-allowed'
                 }`}
               >

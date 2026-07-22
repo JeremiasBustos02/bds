@@ -1,10 +1,24 @@
-import { useRef, Suspense } from 'react'
+import { useRef, useEffect, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import type { Mesh } from 'three'
 
 function ProceduralMesh({ color }: { color: string }) {
   const meshRef = useRef<Mesh>(null)
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => {
+      if (mesh) {
+        mesh.geometry.dispose()
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((m) => m.dispose())
+        } else {
+          mesh.material.dispose()
+        }
+      }
+    }
+  }, [])
 
   useFrame((_state, delta) => {
     if (!meshRef.current) return
@@ -57,7 +71,7 @@ export default function MiniProductPreview({
     <Canvas
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 3.2], fov: 40 }}
-      frameloop="always"
+      frameloop="always" /* rotación continua en useFrame -> necesita always */
       style={{
         width: '100%',
         height: '100%',

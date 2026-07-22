@@ -1,22 +1,9 @@
 import { useCallback, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { ProductoResponse, Categoria } from '../lib/types'
+import type { ProductoResponse } from '../lib/types'
 import MiniProductPreview from '../scene/MiniProductPreview'
-
-const CATEGORY_COLORS: Record<Categoria, string> = {
-  REMERAS: '#6366f1',
-  BUZOS: '#8b5cf6',
-  PANTALONES: '#f59e0b',
-  ACCESORIOS: '#10b981',
-}
-
-const CATEGORY_BG: Record<Categoria, string> = {
-  REMERAS: 'from-indigo-600/20 to-indigo-900/30',
-  BUZOS: 'from-violet-600/20 to-violet-900/30',
-  PANTALONES: 'from-amber-600/20 to-amber-900/30',
-  ACCESORIOS: 'from-emerald-600/20 to-emerald-900/30',
-}
+import { CATEGORY_COLORS, CATEGORY_BG } from '../lib/categoryColors'
 
 export default function ProductCardGrid({
   product,
@@ -57,7 +44,7 @@ export default function ProductCardGrid({
         onMouseLeave={handleMouseLeave}
         className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 transition-all duration-300"
         style={{
-          transform: hovered ? 'scale(1.04)' : 'scale(1)',
+          transform: hovered ? 'scale(1.05)' : 'scale(1)',
           zIndex: hovered ? 10 : 1,
         }}
       >

@@ -44,7 +44,7 @@ export default function CartPage() {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="mt-8 rounded-full bg-white px-10 py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-[0.98]"
+              className="mt-8 rounded-full bg-white px-10 py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-95"
             >
               Ver colección
             </button>
@@ -59,7 +59,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-neutral-950">
       <FloatingNavbar />
 
-      <div className="mx-auto max-w-6xl px-4 pt-28 pb-12 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 pt-navbar-offset pb-12 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -188,15 +188,15 @@ export default function CartPage() {
               <button
                 type="button"
                 onClick={() => navigate('/checkout')}
-                className="mt-5 w-full rounded-full bg-white py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-[0.98]"
+                className="mt-5 w-full rounded-full bg-white py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-95"
               >
-                Finalizar compra
+                Continuar
               </button>
 
               <button
                 type="button"
                 onClick={() => navigate('/')}
-                className="mt-2 w-full rounded-full border border-white/20 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-[0.98]"
+                className="mt-2 w-full rounded-full border border-white/20 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 active:scale-95"
               >
                 Seguir comprando
               </button>

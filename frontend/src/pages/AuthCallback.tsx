@@ -12,7 +12,7 @@ export default function AuthCallback() {
     if (llamado.current) return
     llamado.current = true
 
-    const token = searchParams.get('token')
+    const code = searchParams.get('code')
     const error = searchParams.get('error')
 
     if (error) {
@@ -20,14 +20,32 @@ export default function AuthCallback() {
       return
     }
 
-    if (!token) {
+    if (!code) {
       navigate('/login', { replace: true })
       return
     }
 
-    loginWithGoogleOAuth(token)
-      .then(() => navigate('/', { replace: true }))
-      .catch(() => navigate('/login', { replace: true }))
+    async function exchangeCode(code: string) {
+      try {
+        const res = await fetch('/api/auth/exchange', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
+        })
+
+        if (!res.ok) throw new Error('Código inválido o expirado')
+
+        const data = await res.json() as { token: string }
+        if (!data.token) throw new Error('Token no recibido')
+
+        await loginWithGoogleOAuth(data.token)
+        navigate('/', { replace: true })
+      } catch {
+        navigate('/login', { replace: true })
+      }
+    }
+
+    exchangeCode(code)
   }, [navigate, searchParams, loginWithGoogleOAuth])
 
   return (

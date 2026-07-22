@@ -3,17 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCartStore, selectCantidadTotal } from '../store/useCartStore'
 import { useAuthStore } from '../store/useAuthStore'
-import { useProducts } from '../hooks/useProducts'
+import { useCategorias } from '../hooks/useCategorias'
 import type { Categoria } from '../lib/types'
+import { CATEGORY_LABEL, CATEGORY_SLUG } from '../lib/categoryColors'
 import GlassPanel from './GlassPanel'
 import CartDrawer from './CartDrawer'
-
-const CATEGORY_INFO: Record<Categoria, { label: string; slug: string }> = {
-  REMERAS: { label: 'Remeras', slug: 'remeras' },
-  BUZOS: { label: 'Buzos', slug: 'buzos' },
-  PANTALONES: { label: 'Pantalones', slug: 'pantalones' },
-  ACCESORIOS: { label: 'Accesorios', slug: 'accesorios' },
-}
 
 export default function FloatingNavbar() {
   const cantidadTotal = useCartStore(selectCantidadTotal)
@@ -28,14 +22,13 @@ export default function FloatingNavbar() {
   const coleccionRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
 
-  const { products } = useProducts()
+  const { categorias } = useCategorias()
 
   const categories = useMemo(() => {
-    const cats = new Set(products.map((p) => p.categoria))
-    return (Object.entries(CATEGORY_INFO) as [Categoria, { label: string; slug: string }][])
-      .filter(([key]) => cats.has(key))
-      .map(([key, val]) => ({ categoria: key, ...val }))
-  }, [products])
+    return (Object.entries(CATEGORY_LABEL) as [Categoria, string][])
+      .filter(([key]) => categorias.includes(key))
+      .map(([key, label]) => ({ categoria: key, label, slug: CATEGORY_SLUG[key] }))
+  }, [categorias])
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -162,6 +155,14 @@ export default function FloatingNavbar() {
                             className="block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
                           >
                             Mis pedidos
+                          </Link>
+
+                          <Link
+                            to="/mi-cuenta"
+                            onClick={() => setProfileOpen(false)}
+                            className="block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            Mi perfil
                           </Link>
 
                           {usuario.rol === 'ADMIN' && (

@@ -1,12 +1,10 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, type HTMLAttributes } from 'react'
 
 type GlassVariant = 'default' | 'dense'
 
-interface GlassPanelProps {
+interface GlassPanelProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
-  className?: string
   variant?: GlassVariant
-  style?: React.CSSProperties
   bgOpacity?: number
 }
 
@@ -26,6 +24,7 @@ export default function GlassPanel({
   variant = 'default',
   style,
   bgOpacity,
+  ...rest
 }: GlassPanelProps) {
   const baseStyle: React.CSSProperties = {
     backdropFilter: 'blur(32px) saturate(180%)',
@@ -38,6 +37,7 @@ export default function GlassPanel({
 
   return (
     <div
+      {...rest}
       className={`relative ${bgOpacity !== undefined ? '' : BG_CLASSES[variant]} ${className}`}
       style={{
         ...baseStyle,

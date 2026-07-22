@@ -41,4 +41,16 @@ public class Stock {
         stock.cantidadDisponible = cantidadDisponible;
         return stock;
     }
+
+    public void descontar(int cantidad) {
+        if (cantidad < 0) throw new IllegalArgumentException("No se puede descontar una cantidad negativa");
+        if (this.cantidadDisponible < cantidad)
+            throw new IllegalStateException("Stock insuficiente: disponible " + this.cantidadDisponible + ", solicitado " + cantidad);
+        this.cantidadDisponible -= cantidad;
+    }
+
+    public void devolver(int cantidad) {
+        if (cantidad < 0) throw new IllegalArgumentException("No se puede devolver una cantidad negativa");
+        this.cantidadDisponible += cantidad;
+    }
 }

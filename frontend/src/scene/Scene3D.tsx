@@ -9,7 +9,7 @@ export default function Scene3D() {
     <Canvas
       dpr={[1, 2]}
       camera={{ position: [0, 1.5, 5], fov: 45 }}
-      frameloop="always"
+      frameloop="always" /* scroll progress + idle float continua -> always necesario */
       style={{ width: '100%', height: '100%' }}
     >
       <CameraRig />

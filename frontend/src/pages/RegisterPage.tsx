@@ -44,7 +44,7 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen flex-col bg-neutral-950">
       <FloatingNavbar />
-      <main className="flex flex-1 items-center justify-center px-4 pt-24">
+      <main className="flex flex-1 items-center justify-center px-4 pt-navbar-offset">
         <GlassPanel className="w-full max-w-md rounded-2xl p-8">
           <h1 className="text-2xl font-bold text-white">Crear cuenta</h1>
           <p className="mt-1 text-sm text-neutral-400">
@@ -130,7 +130,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+              className="w-full rounded-full bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
             >
               {loading ? 'Creando cuenta...' : 'Crear cuenta'}
             </button>
@@ -143,7 +143,7 @@ export default function RegisterPage() {
 
             <a
               href="/oauth2/authorization/google"
-              className="flex w-full items-center justify-center gap-3 rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-2.5 text-sm font-medium text-neutral-300 transition-all hover:bg-white/10 hover:text-white active:scale-[0.98]"
+              className="flex w-full items-center justify-center gap-3 rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-2.5 text-sm font-medium text-neutral-300 transition-all hover:bg-white/10 hover:text-white active:scale-95"
             >
               <svg viewBox="0 0 48 48" className="h-5 w-5">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>

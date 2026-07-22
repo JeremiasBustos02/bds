@@ -3,14 +3,8 @@ import { Suspense } from 'react'
 import CameraRig from './CameraRig'
 import HeroGarment from './HeroGarment'
 import Lighting from './Lighting'
+import { CATEGORY_COLORS } from '../lib/categoryColors'
 import type { ProductoResponse } from '../lib/types'
-
-const CATEGORY_COLORS: Record<string, string> = {
-  REMERAS: '#6366f1',
-  BUZOS: '#8b5cf6',
-  PANTALONES: '#06b6d4',
-  ACCESORIOS: '#f59e0b',
-}
 
 export default function ProductScene3D({ product }: { product: ProductoResponse }) {
   const primaryVariant = product.variantes[0]
@@ -20,7 +14,7 @@ export default function ProductScene3D({ product }: { product: ProductoResponse 
     <Canvas
       dpr={[1, 2]}
       camera={{ position: [0, 1.5, 5], fov: 45 }}
-      frameloop="always"
+      frameloop="always" /* scroll progress + idle float continua -> always necesario */
       style={{ width: '100%', height: '100%' }}
     >
       <CameraRig />

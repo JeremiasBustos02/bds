@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,6 +31,12 @@ import java.util.UUID;
 public class ProductoController {
 
     private final ProductoService productoService;
+
+    @GetMapping("/categorias")
+    public ResponseEntity<List<Categoria>> listarCategorias() {
+        List<Categoria> categorias = productoService.obtenerCategorias();
+        return ResponseEntity.ok(categorias);
+    }
 
     @GetMapping
     public ResponseEntity<Page<ProductoResponseDTO>> listar(

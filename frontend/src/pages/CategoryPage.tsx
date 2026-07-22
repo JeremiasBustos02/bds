@@ -2,17 +2,11 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Categoria } from '../lib/types'
 import { useProducts } from '../hooks/useProducts'
+import { CATEGORY_LABEL } from '../lib/categoryColors'
 import FloatingNavbar from '../components/FloatingNavbar'
 import ProductCardGrid from '../components/ProductCardGrid'
 import GlassPanel from '../components/GlassPanel'
 import FatFooter from '../components/FatFooter'
-
-const CATEGORY_LABEL: Record<string, string> = {
-  REMERAS: 'Remeras',
-  BUZOS: 'Buzos',
-  PANTALONES: 'Pantalones',
-  ACCESORIOS: 'Accesorios',
-}
 
 const CATEGORY_DESC: Record<string, string> = {
   REMERAS: 'Minimalismo, comfort y líneas limpias. Prendas que funcionan en cualquier contexto.',
@@ -57,7 +51,7 @@ export default function CategoryPage() {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="mt-8 rounded-full bg-white px-10 py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-[0.98]"
+              className="mt-8 rounded-full bg-white px-10 py-3.5 text-base font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-95"
             >
               Volver al inicio
             </button>
@@ -102,7 +96,7 @@ export default function CategoryPage() {
     <div className="min-h-screen bg-neutral-950">
       <FloatingNavbar />
 
-      <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-navbar-offset pb-12 sm:px-6 lg:px-8">
         {/* Header de categoría */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -191,7 +191,7 @@ export default function CartDrawer({
                   <button
                     type="button"
                     onClick={handleIrAlCarrito}
-                    className="mt-3 w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-[0.98]"
+                    className="mt-3 w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-200 active:scale-95"
                   >
                     Ir al carrito
                   </button>

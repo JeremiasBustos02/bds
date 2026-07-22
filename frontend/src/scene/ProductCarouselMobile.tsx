@@ -1,15 +1,9 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { useFrame, useThree, Canvas } from '@react-three/fiber'
 import { useNavigate } from 'react-router-dom'
 import type { Mesh } from 'three'
-import type { ProductoResponse, Categoria } from '../lib/types'
-
-const CATEGORY_COLORS: Record<Categoria, string> = {
-  REMERAS: '#6366f1',
-  BUZOS: '#8b5cf6',
-  PANTALONES: '#f59e0b',
-  ACCESORIOS: '#10b981',
-}
+import type { ProductoResponse } from '../lib/types'
+import { CATEGORY_COLORS } from '../lib/categoryColors'
 
 const CATEGORY_PICK_ORDER: Categoria[] = ['REMERAS', 'BUZOS', 'PANTALONES']
 const SLIDE_SPACING = 3.2
@@ -32,6 +26,21 @@ function MobileCarouselItem({
   swipeGuard: React.MutableRefObject<boolean>
 }) {
   const meshRef = useRef<Mesh>(null)
+
+  useEffect(() => {
+    const mesh = meshRef.current
+    return () => {
+      if (mesh) {
+        mesh.geometry.dispose()
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((m) => m.dispose())
+        } else {
+          mesh.material.dispose()
+        }
+      }
+    }
+  }, [])
+
   const navigate = useNavigate()
   const color = CATEGORY_COLORS[product.categoria] ?? '#6366f1'
 
@@ -122,7 +131,7 @@ export default function ProductCarouselMobile({
         <Canvas
           dpr={[1, 2]}
           camera={{ position: [0, 0, 5], fov: 42 }}
-          frameloop="always"
+          frameloop="always" /* rotación idle continua de MobileCarouselItem -> always necesario */
           style={{ width: '100%', height: '100%' }}
         >
           <ambientLight intensity={0.3} />

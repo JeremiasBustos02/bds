@@ -1,10 +1,12 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { useFrame, Canvas } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
-import type { Mesh, Group } from 'three'
+import type { Group } from 'three'
 import type { ProductoResponse } from '../lib/types'
 import { CATEGORY_COLORS } from '../lib/categoryColors'
+import GarmentModel from './GarmentModel'
+import { GARMENT_SCALE } from '../lib/garmentScale'
 
 const ARC_START = -0.55
 const ARC_END = 0.55
@@ -31,21 +33,7 @@ function CarouselItem({
   index: number
   total: number
 }) {
-  const meshRef = useRef<Mesh>(null)
-
-  useEffect(() => {
-    const mesh = meshRef.current
-    return () => {
-      if (mesh) {
-        mesh.geometry.dispose()
-        if (Array.isArray(mesh.material)) {
-          mesh.material.forEach((m) => m.dispose())
-        } else {
-          mesh.material.dispose()
-        }
-      }
-    }
-  }, [])
+  const groupRef = useRef<Group>(null)
 
   const [hovered, setHovered] = useState(false)
   const navigate = useNavigate()
@@ -60,15 +48,15 @@ function CarouselItem({
   const idleRot = useRef(0)
 
   useFrame((_state, delta) => {
-    if (!meshRef.current) return
+    if (!groupRef.current) return
     idleRot.current += delta * 0.4
-    meshRef.current.rotation.y = idleRot.current
+    groupRef.current.rotation.y = idleRot.current
   })
 
   return (
     <group position={[x, 0.2, z]}>
-      <mesh
-        ref={meshRef}
+      <group
+        ref={groupRef}
         scale={hovered ? 1.08 : 1}
         onPointerOver={() => {
           setHovered(true)
@@ -80,16 +68,25 @@ function CarouselItem({
         }}
         onClick={() => navigate(`/producto/${product.slug}`)}
       >
-        <torusKnotGeometry args={[0.6, 0.18, 64, 16]} />
-        <meshPhysicalMaterial
-          color={color}
-          metalness={0.5}
-          roughness={0.3}
-          clearcoat={0.3}
-          emissive={hovered ? color : '#000000'}
-          emissiveIntensity={hovered ? 0.15 : 0}
-        />
-      </mesh>
+        {product.modelo3dUrl ? (
+          <GarmentModel
+            url={product.modelo3dUrl}
+            targetHeight={GARMENT_SCALE.heroCarouselDesktop}
+          />
+        ) : (
+          <mesh>
+            <torusKnotGeometry args={[0.6, 0.18, 64, 16]} />
+            <meshPhysicalMaterial
+              color={color}
+              metalness={0.5}
+              roughness={0.3}
+              clearcoat={0.3}
+              emissive={hovered ? color : '#000000'}
+              emissiveIntensity={hovered ? 0.15 : 0}
+            />
+          </mesh>
+        )}
+      </group>
 
       {hovered && (
         <Html position={[0, 0.9, 0]} center>

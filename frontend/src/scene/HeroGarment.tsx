@@ -1,23 +1,22 @@
 import { useRef, useEffect } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { useScrollStore } from '../store/useScrollStore'
 import type { Mesh } from 'three'
+import GarmentModel from './GarmentModel'
+import { GARMENT_SCALE } from '../lib/garmentScale'
 
 const ROTATIONS_TOTAL = 1.5
-const REFERENCE_SIZE = 1080
-const MIN_SCALE = 0.35
-const MAX_SCALE = 1.1
 
-export default function HeroGarment({
-  color = '#6366f1',
-  metalness = 0.6,
-  roughness = 0.3,
-  clearcoat = 0.4,
+function ProceduralFallback({
+  color,
+  metalness,
+  roughness,
+  clearcoat,
 }: {
-  color?: string
-  metalness?: number
-  roughness?: number
-  clearcoat?: number
+  color: string
+  metalness: number
+  roughness: number
+  clearcoat: number
 }) {
   const meshRef = useRef<Mesh>(null)
 
@@ -37,14 +36,11 @@ export default function HeroGarment({
 
   const progress = useScrollStore((s) => s.progress)
   const currentRot = useRef(0)
-  const { size } = useThree()
 
   useFrame(({ clock }, delta) => {
     if (!meshRef.current) return
 
-    const base = Math.min(size.width, size.height)
-    const scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, base / REFERENCE_SIZE))
-    meshRef.current.scale.setScalar(scale)
+    meshRef.current.scale.setScalar(1)
 
     const targetRot = progress * Math.PI * 2 * ROTATIONS_TOTAL
     const lerpFactor = 1 - Math.exp(-3 * delta)
@@ -65,5 +61,42 @@ export default function HeroGarment({
         clearcoat={clearcoat}
       />
     </mesh>
+  )
+}
+
+export default function HeroGarment({
+  color = '#6366f1',
+  metalness = 0.6,
+  roughness = 0.3,
+  clearcoat = 0.4,
+  modelo3dUrl,
+}: {
+  color?: string
+  metalness?: number
+  roughness?: number
+  clearcoat?: number
+  modelo3dUrl?: string | null
+}) {
+  const progress = useScrollStore((s) => s.progress)
+
+  if (modelo3dUrl) {
+    return (
+      <GarmentModel
+        url={modelo3dUrl}
+        targetHeight={GARMENT_SCALE.productPage}
+        scrollRotation
+        scrollProgress={progress}
+        idleFloat
+      />
+    )
+  }
+
+  return (
+    <ProceduralFallback
+      color={color}
+      metalness={metalness}
+      roughness={roughness}
+      clearcoat={clearcoat}
+    />
   )
 }

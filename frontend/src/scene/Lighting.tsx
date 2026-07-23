@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 import { useScrollStore } from '../store/useScrollStore'
 import type { DirectionalLight, PointLight } from 'three'
 
@@ -12,7 +11,7 @@ function rimIntensity(progress: number) {
     const intensity = Math.max(0, 1 - dist / 0.12)
     maxIntensity = Math.max(maxIntensity, intensity)
   }
-  return maxIntensity * 2.5
+  return maxIntensity * 1.2
 }
 
 export default function Lighting() {
@@ -22,7 +21,7 @@ export default function Lighting() {
 
   useFrame(() => {
     if (keyRef.current) {
-      keyRef.current.intensity = 0.3 + progress * 1.2
+      keyRef.current.intensity = 0.4 + progress * 0.6
     }
     if (rimRef.current) {
       rimRef.current.intensity = rimIntensity(progress)
@@ -31,11 +30,11 @@ export default function Lighting() {
 
   return (
     <>
-      <ambientLight intensity={0.25} />
+      <ambientLight intensity={0.3} />
       <directionalLight
         ref={keyRef}
         position={[5, 8, 5]}
-        intensity={0.3}
+        intensity={0.4}
       />
       <pointLight
         ref={rimRef}
@@ -43,7 +42,6 @@ export default function Lighting() {
         intensity={0}
         color="#a78bfa"
       />
-      <Environment preset="studio" />
     </>
   )
 }

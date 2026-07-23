@@ -22,6 +22,7 @@ export default function ProductScene3D({ product }: { product: ProductoResponse 
         <HeroGarment
           color={color}
           metalness={primaryVariant?.color.toLowerCase().includes('metal') ? 0.8 : 0.4}
+          modelo3dUrl={product.modelo3dUrl}
         />
         <Lighting />
       </Suspense>

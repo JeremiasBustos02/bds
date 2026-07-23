@@ -1,9 +1,11 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { useFrame, useThree, Canvas } from '@react-three/fiber'
 import { useNavigate } from 'react-router-dom'
-import type { Mesh } from 'three'
+import type { Mesh, Group } from 'three'
 import type { ProductoResponse } from '../lib/types'
 import { CATEGORY_COLORS } from '../lib/categoryColors'
+import GarmentModel from './GarmentModel'
+import { GARMENT_SCALE } from '../lib/garmentScale'
 
 const CATEGORY_PICK_ORDER: Categoria[] = ['REMERAS', 'BUZOS', 'PANTALONES']
 const SLIDE_SPACING = 3.2
@@ -26,6 +28,7 @@ function MobileCarouselItem({
   swipeGuard: React.MutableRefObject<boolean>
 }) {
   const meshRef = useRef<Mesh>(null)
+  const groupRef = useRef<Group>(null)
 
   useEffect(() => {
     const mesh = meshRef.current
@@ -45,16 +48,32 @@ function MobileCarouselItem({
   const color = CATEGORY_COLORS[product.categoria] ?? '#6366f1'
 
   useFrame((_state, delta) => {
-    if (!meshRef.current) return
-    meshRef.current.rotation.y += delta * 0.4
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.4
+    } else if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.4
+    }
   })
+
+  const handleClick = () => {
+    if (!swipeGuard.current) navigate(`/producto/${product.slug}`)
+  }
+
+  if (product.modelo3dUrl) {
+    return (
+      <group ref={groupRef} onClick={handleClick}>
+        <GarmentModel
+          url={product.modelo3dUrl}
+          targetHeight={GARMENT_SCALE.heroCarouselMobile}
+        />
+      </group>
+    )
+  }
 
   return (
     <mesh
       ref={meshRef}
-      onClick={() => {
-        if (!swipeGuard.current) navigate(`/producto/${product.slug}`)
-      }}
+      onClick={handleClick}
     >
       <torusKnotGeometry args={[0.75, 0.22, 64, 16]} />
       <meshPhysicalMaterial

@@ -1,7 +1,8 @@
 import { useRef, useEffect, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
 import type { Mesh } from 'three'
+import GarmentModel from './GarmentModel'
+import { GARMENT_SCALE } from '../lib/garmentScale'
 
 function ProceduralMesh({ color }: { color: string }) {
   const meshRef = useRef<Mesh>(null)
@@ -39,11 +40,6 @@ function ProceduralMesh({ color }: { color: string }) {
   )
 }
 
-function LoadedModel({ url }: { url: string }) {
-  const { scene } = useGLTF(url)
-  return <primitive object={scene} scale={0.5} />
-}
-
 function SceneContent({ color, modelo3dUrl }: { color: string; modelo3dUrl?: string | null }) {
   return (
     <>
@@ -51,7 +47,10 @@ function SceneContent({ color, modelo3dUrl }: { color: string; modelo3dUrl?: str
       <directionalLight position={[5, 5, 5]} intensity={0.8} />
       {modelo3dUrl ? (
         <Suspense fallback={null}>
-          <LoadedModel url={modelo3dUrl} />
+          <GarmentModel
+            url={modelo3dUrl}
+            targetHeight={GARMENT_SCALE.miniPreview}
+          />
         </Suspense>
       ) : (
         <ProceduralMesh color={color} />
